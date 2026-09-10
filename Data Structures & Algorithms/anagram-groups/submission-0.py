@@ -1,9 +1,12 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        res = defaultdict(list)
-        for s in strs:
-            count = [0] * 26
-            for c in s:
-                count[ord(c) - ord('a')] += 1
-            res[tuple(count)].append(s)
-        return list(res.values())
+        anagrams = defaultdict(list)
+
+        for string in strs:
+            alphabetList = [0] * 26
+            for c in string:
+                alphabetList[ord(c) - ord("a")] += 1
+
+            anagrams[tuple(alphabetList)].append(string)
+
+        return list(anagrams.values())
