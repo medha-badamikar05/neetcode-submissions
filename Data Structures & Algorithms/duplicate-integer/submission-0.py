@@ -1,15 +1,12 @@
 class Solution:
     def hasDuplicate(self, nums: List[int]) -> bool:
-        if not nums:
-            return False
-
-        duplicate = set()
+        unique = set()
 
         for num in nums:
-            if num in duplicate:
+            if unique and num in unique:
                 return True
-            else:
-                duplicate.add(num)
+            unique.add(num)
+        
         return False
 
-        
+    
