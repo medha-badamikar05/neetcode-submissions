@@ -8,14 +8,21 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        oldToNew = {}
-        def dfs(node):
-            if node in oldToNew:
-                return oldToNew[node]
-            copy = Node(node.val)
-            oldToNew[node] = copy
+        if not node:
+            return None
+        originalToCloned = {}
 
-            for n in node.neighbors:
-                copy.neighbors.append(dfs(n))
-            return copy
-        return dfs(node) if node else None
+        def dfs(n):
+            if n in originalToCloned:
+                return originalToCloned[n]
+            deepCopy = Node(n.val)
+            originalToCloned[n] = deepCopy
+            for neighbor in n.neighbors:
+                deepCopy.neighbors.append(dfs(neighbor))
+            return deepCopy
+        
+        return dfs(node)
+
+        
+        
+        
