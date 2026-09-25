@@ -1,31 +1,31 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        if t == "": return ""
-
-        subStringMap = {}
-        windowMap = {}
-        l,r = 0,0
-        n = len(s)
-        res, resLen = [-1,-1], float("infinity")
+        if len(s) < len(t):
+            return ""
+    
+        countT, countS = {}, {}
 
         for c in t:
-            subStringMap[c] = subStringMap.get(c,0) + 1
+            countT[c] = countT.get(c,0) + 1
+        
+        req = len(countT)
         cur = 0
-        req = len(subStringMap)
+        l, r = 0, 0
+        resLen, resL = float("inf"), 0
+        n = len(s)
 
         while r < n:
-            windowMap[s[r]] = windowMap.get(s[r],0) + 1
-            if s[r] in subStringMap and windowMap[s[r]] == subStringMap[s[r]]:
+            countS[s[r]] = countS.get(s[r], 0) + 1
+            if s[r] in countT and countS[s[r]] == countT[s[r]]:
                 cur += 1
-            while cur == req:
-                if (r - l + 1) < resLen:
-                    res = [l,r]
-                    resLen = (r - l + 1)
-                windowMap[s[l]] -= 1
-                if s[l] in subStringMap and windowMap[s[l]] < subStringMap[s[l]]:
+            while req == cur:
+                if r - l + 1 < resLen:
+                    resLen, resL = r - l + 1, l
+                countS[s[l]] -= 1
+                if s[l] in countT and countS[s[l]] < countT[s[l]]:
                     cur -= 1
                 l += 1
             r += 1
+        return s[resL: resL + resLen] if resLen != float("inf") else ""
         
-        l,r = res
-        return s[l:r+1] if resLen != float("infinity") else ""
+
